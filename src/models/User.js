@@ -44,7 +44,7 @@ UserSchema.methods.comparePassword = function(candidate){
 
 // 🔹 Definición del esquema
 const userSchema = new mongoose.Schema({
-  name: { type: String, required: true },
+  name: { type: String, },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   avatar: { type: String }, // URL de Cloudinary

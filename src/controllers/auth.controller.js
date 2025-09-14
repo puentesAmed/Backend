@@ -1,7 +1,9 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+require('dotenv').config();
 
-const sign = (id) => jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES || '7d' });
+
+const sign = (id) => jwt.sign({ id }, process.env.JWT_SECRET,);
 
 exports.register = async (req, res) => {
   try {
