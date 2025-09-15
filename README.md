@@ -1,6 +1,6 @@
 # API Node.js + Express + MongoDB Atlas + Cloudinary — III_PROYECTO/Backend
 
-Guía de uso y referencia del proyecto. Cumple los requisitos de: **2 modelos mínimos**, **1 relación**, **roles con permisos**, **Auth JWT**, **subida y borrado de imágenes en Cloudinary**, **semilla**, **CRUD completo**, y **arrays sin duplicados**.
+Guía de uso y referencia del proyecto.
 
 ---
 
