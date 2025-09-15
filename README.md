@@ -85,7 +85,8 @@ CLOUDINARY_CLOUD_NAME=<tu_nombre>
 CLOUDINARY_API_KEY=<tu_api_key>
 CLOUDINARY_API_SECRET=<tu_api_secret>
 
-
+  ```
+## Instalación y ejecución
 1. **Clonar e instalar**
    ```bash
    npm i
