@@ -81,34 +81,10 @@ Crea un `.env` en la raíz:
 PORT=3000
 MONGODB_URI=<tu_cadena_de_Atlas>
 JWT_SECRET=<secreto_fuerte>
-JWT_EXPIRES=7d
 CLOUDINARY_CLOUD_NAME=<tu_nombre>
 CLOUDINARY_API_KEY=<tu_api_key>
 CLOUDINARY_API_SECRET=<tu_api_secret>
-```
-> Nota: En proyectos reales **no** subas `.env`. Para la escuela, si lo piden, súbelo para facilitar la corrección.
 
-## Instalación y ejecución
-
-**Notas Windows y resolución de `ERESOLVE`**
-- Si aparece el conflicto `multer-storage-cloudinary` ↔ `cloudinary`:
-  - **Opción A (recomendada)**: usar Cloudinary v2 y subir por *stream*.
-    ```powershell
-    npm rm multer-storage-cloudinary
-    npm i cloudinary
-    ```
-  - **Opción B (compatibilidad)**: fijar Cloudinary v1 con `multer-storage-cloudinary` v4.
-    ```powershell
-    npm rm cloudinary
-    npm i cloudinary@^1 multer-storage-cloudinary@^4
-    ```
-  - Evita `--legacy-peer-deps` salvo última opción.
-- Limpieza rápida antes de reinstalar:
-  ```powershell
-  Remove-Item -Recurse -Force node_modules, package-lock.json
-  npm cache verify
-  npm i
-  ```
 
 1. **Clonar e instalar**
    ```bash
@@ -220,39 +196,7 @@ CLOUDINARY_API_SECRET=<tu_api_secret>
 | PATCH  | /items/:id  | ✅ owner/admin | Actualiza item. |
 | DELETE | /items/:id  | ✅ owner/admin | Elimina item. |
 
-## Ejemplos de uso (cURL)
-**Registro con imagen**
-```bash
-curl -X POST http://localhost:3000/auth/register \
-  -F "email=user@test.com" \
-  -F "password=Password123" \
-  -F "image=@/ruta/a/tu_imagen.png"
-```
-**Login**
-```bash
-curl -X POST http://localhost:3000/auth/login \
-  -H "Content-Type: application/json" \
-  -d '{"email":"user@test.com","password":"Password123"}'
-```
-**Añadir relacionados sin duplicar**
-```bash
-curl -X PATCH http://localhost:3000/users/<USER_ID>/related \
-  -H "Authorization: Bearer <TOKEN>" \
-  -H "Content-Type: application/json" \
-  -d '{"itemIds":["<ITEM_ID1>","<ITEM_ID2>"]}'
-```
-**Cambiar rol (admin)**
-```bash
-curl -X PATCH http://localhost:3000/users/<USER_ID>/role \
-  -H "Authorization: Bearer <TOKEN_ADMIN>" \
-  -H "Content-Type: application/json" \
-  -d '{"role":"admin"}'
-```
-**Eliminar usuario (propio)**
-```bash
-curl -X DELETE http://localhost:3000/users/<USER_ID> \
-  -H "Authorization: Bearer <TOKEN>"
-```
+---
 
 ## Validación y manejo de errores
 - `express-validator` valida emails, contraseñas y `:id` (MongoId).
@@ -273,5 +217,4 @@ curl -X DELETE http://localhost:3000/users/<USER_ID> \
 
 ---
 
-> Tip: Para editar Markdown de forma visual puedes usar **Dillinger** u otro editor. Copia este README y ajústalo a tu repositorio.
 
