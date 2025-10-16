@@ -1,25 +1,40 @@
 const router = require('express').Router();
+const { param } = require('express-validator');
+const { validationResult } = require('express-validator');
 const auth = require('../middlewares/auth');
 const requireRole = require('../middlewares/role');
 const { upload, uploadToCloudinary } = require('../middlewares/upload');
-const { idParamValidator } = require('../middlewares/validators');
-const { validationResult } = require('express-validator');
 const ctrl = require('../controllers/user.controller');
 
+// Middleware de validación
 const validate = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
   next();
 };
 
-router.use(auth);//Proteccion de rutas
+// Todas las rutas requieren autenticación
+router.use(auth);
 
-router.get('/', requireRole('admin'), ctrl.getAll);//Devuelve todos los usuarios.
-router.get('/:id', idParamValidator, validate, ctrl.getById);//Devuelve un usuario por su ID.
+// Admin puede listar todos los usuarios
+router.get('/', requireRole('admin'), ctrl.getAll);
 
-router.patch('/:id', idParamValidator, validate, upload.single('image'), ctrl.updateSelf);//Actualiza un usuario (incluye subir imagen con upload.single('image'))
-router.delete('/:id', idParamValidator, validate, ctrl.remove);//Elimina un usuario.
+// Obtener usuario por id (propietario o admin)
+router.get('/:id', [param('id').isMongoId(), validate], ctrl.getById);
 
-router.patch('/:id/role', requireRole('admin'), idParamValidator, validate, ctrl.adminSetRole);// Admin cambia rol
+// Actualizar usuario (solo propietario) + imagen
+router.patch(
+  '/:id',
+  [param('id').isMongoId(), validate],
+  upload.single('image'),
+  uploadToCloudinary,
+  ctrl.updateSelf
+);
+
+// Cambiar rol (solo admin)
+router.patch('/:id/role', requireRole('admin'), [param('id').isMongoId(), validate], ctrl.adminSetRole);
+
+// Eliminar usuario (propietario o admin)
+router.delete('/:id', [param('id').isMongoId(), validate], ctrl.remove);
 
 module.exports = router;

@@ -8,6 +8,7 @@ app.use(morgan('dev'));
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
+app.use(require('./middlewares/error'));
 
 // rutas
 app.use('/auth', require('./routes/auth.routes'));
